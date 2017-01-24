@@ -416,12 +416,16 @@
   }
 
   //check username uniqueness
-  function validate_username_uniq($uname=""){
+  function validate_username_uniq($user){
     global $db;
     $sql = "SELECT * FROM users ";
     $sql .= "WHERE username =";
-    $sql .= "'" . db_escape($db, $uname) . "'";
-    $sql .= ";";
+    $sql .= "'" . db_escape($db, $user['username']) . "'";
+    if (isset($user['id'])){ //for update_user
+      $sql .= "AND id <>";
+      $sql .= "'" . db_escape($db, $user['id']) . "'";
+    }
+    $sql .= "LIMIT 1;";
     $result_uname = db_query($db, $sql);
     if ($result_uname != false && mysqli_num_rows($result_uname) > 0){
       return false;
@@ -461,7 +465,7 @@
       $errors[] = "Username must be less than 255 characters.";
     } elseif (!preg_match('/^\A[a-zA-Z0-9\_]+\Z$/',$user['username'])) {
       $errors[] = "Username may only contain letters, numbers and symbols: (_) underscore";
-    } elseif (!validate_username_uniq($user['username'])) {
+    } elseif (!validate_username_uniq($user)) {
       $errors[] = "Username already exists, please choose a new username.";
     }
 
