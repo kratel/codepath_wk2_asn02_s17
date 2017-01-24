@@ -12,6 +12,96 @@
     return $country_result;
   }
 
+
+  // Find state by ID
+  function find_country_by_id($id=0) {
+    global $db;
+    $sql = "SELECT * FROM countries ";
+    $sql .= "WHERE id='" . db_escape($db, $id) . "';";
+    $country_result = db_query($db, $sql);
+    return $country_result;
+  }
+
+  function validate_country($country, $errors=array()) {
+    // TODO add validations
+    if (is_blank($country['name'])) {
+      $errors[] = "Name cannot be blank.";
+    } elseif (!has_length($country['name'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "Name must be between 2 and 255 characters.";
+    } /* MY CUSTOM VALIDATION */elseif (!preg_match('/^\A[a-zA-Z\s]+\Z$/',$country['name'])) {
+      $errors[] = "Name may only contain letters and whitespace";
+    }
+
+    if (is_blank($country['code'])) {
+      $errors[] = "Code cannot be blank.";
+    } elseif (!has_length($country['code'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "Code must be between 2 and 255 characters.";
+    } /* MY CUSTOM VALIDATION */elseif (!preg_match('/^\A[A-Z]+\Z$/',$country['code'])) {
+      $errors[] = "Code may only contain uppercase letters";
+    }
+
+    return $errors;
+  }
+
+  // Add a new country to the table
+  // Either returns true or an array of errors
+  function insert_country($country) {
+    global $db;
+
+    $errors = validate_country($country);
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    // TODO add SQL
+    $sql = "INSERT INTO countries ";
+    $sql .= "(name, code) ";
+    $sql .= "VALUES (";
+    $sql .= "'" . db_escape($db, $country['name']) . "',";
+    $sql .= "'" . db_escape($db, $country['code']) . "'";
+    $sql .= ");";
+    // For INSERT statments, $result is just true/false
+    $result = db_query($db, $sql);
+    if($result) {
+      return true;
+    } else {
+      // The SQL INSERT statement failed.
+      // Just show the error, not the form
+      echo db_error($db);
+      db_close($db);
+      exit;
+    }
+  }
+
+  // Edit a country record
+  // Either returns true or an array of errors
+  function update_country($country) {
+    global $db;
+
+    $errors = validate_country($country);
+    if (!empty($errors)) {
+      return $errors;
+    }
+
+    // TODO add SQL
+    $sql = "UPDATE countries SET ";
+    $sql .= "name='" . db_escape($db, $country['name']) . "', ";
+    $sql .= "code='" . db_escape($db, $country['code']) . "' ";
+    $sql .= "WHERE id='" . db_escape($db, $country['id']) . "' ";
+    $sql .= "LIMIT 1;";
+    // For update_state statments, $result is just true/false
+    $result = db_query($db, $sql);
+    if($result) {
+      return true;
+    } else {
+      // The SQL UPDATE statement failed.
+      // Just show the error, not the form
+      echo db_error($db);
+      db_close($db);
+      exit;
+    }
+  }  
+
   //
   // STATE QUERIES
   //
@@ -62,6 +152,12 @@
       $errors[] = "Code may only contain uppercase letters";
     }
 
+    if (is_blank($state['country_id'])) {
+      $errors[] = "Country ID not found, please return to Main Menu and try again.";
+    } /* MY CUSTOM VALIDATION */elseif (mysqli_num_rows(find_country_by_id($state['country_id']))==0) {
+      $errors[] = "Not a valid Country ID, please return to Main Menu and try again.";
+    }
+
     return $errors;
   }
 
@@ -77,10 +173,11 @@
 
     // TODO add SQL
     $sql = "INSERT INTO states ";
-    $sql .= "(name, code) ";
+    $sql .= "(name, code, country_id) ";
     $sql .= "VALUES (";
     $sql .= "'" . db_escape($db, $state['name']) . "',";
-    $sql .= "'" . db_escape($db, $state['code']) . "'";
+    $sql .= "'" . db_escape($db, $state['code']) . "',";
+    $sql .= "'" . db_escape($db, $state['country_id']) . "'";
     $sql .= ");";
     // For INSERT statments, $result is just true/false
     $result = db_query($db, $sql);
@@ -536,6 +633,24 @@
       db_close($db);
       exit;
     }
+  }
+
+  function delete_user($user) {
+    global $db;
+    $sql = "DELETE FROM users ";
+    $sql .= "WHERE id='" . db_escape($db, $user['id']) . "' ";
+    $sql .= "LIMIT 1;";
+    $result = db_query($db, $sql);
+    if($result) {
+      return true;
+    } else {
+      // The SQL DELETE statement failed.
+      // Just show the error, not the form
+      echo db_error($db);
+      db_close($db);
+      exit;
+    }
+
   }
 
 ?>

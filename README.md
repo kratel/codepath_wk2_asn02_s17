@@ -1,6 +1,6 @@
 # Project 2 - Input/Output Sanitization
 
-Time spent: **10** hours spent in total
+Time spent: **12** hours spent in total
 
 ## User Stories
 
@@ -49,6 +49,12 @@ The following **required** functionality is completed:
           * **Reason**: Database restriction.
       * [x] Territory state_id must exist.
           * **Reason**: state_id can be easily changed through the new.php file. Territory will not be inserted unless the state_id already exists in the current states table.
+      * [x] State country_id must exist.
+          * **Reason**: same reasons as above and necessary after completing the advanced bonus user story.
+      * [x] Country Names contain whitelisted characters: Letter and Whitespace.
+          * **Reason**: Many country names follow this format. Prevent unwanted characters.
+      * [x] Country Codes contain whitelisted characters: Uppercase Letters.
+          * **Reason**: Many Country Codes follow this format. Prevent unwanted characters.
 
 8\. [x]  Required: Sanitization
   * [x]  Required: All input and dynamic output should be sanitized.
@@ -70,11 +76,11 @@ The following advanced user stories are optional:
 
 - [x]  Bonus: Validate the uniqueness of `users.username`.
 
-- [ ]  Bonus: Add a page for "public/staff/users/delete.php".
+- [x]  Bonus: Add a page for "public/staff/users/delete.php".
 
-- [ ]  Bonus: Add a Staff CMS for countries.
+- [x]  Bonus: Add a Staff CMS for countries.
 
-- [ ]  Advanced: Nest the CMS for states inside of the Staff CMS for countries
+- [x]  Advanced: Nest the CMS for states inside of the Staff CMS for countries
 
 
 ## Video Walkthrough

@@ -1,5 +1,8 @@
-<?php require_once('../../../private/initialize.php'); ?>
+<?php require_once('../../../private/initialize.php'); 
+redirect_to('../index.php');
+?>
 
+<?php /*
 <?php $page_title = 'Staff: States'; ?>
 <?php include(SHARED_PATH . '/header.php'); ?>
 
@@ -40,3 +43,4 @@
 </div>
 
 <?php include(SHARED_PATH . '/footer.php'); ?>
+*/ ?>

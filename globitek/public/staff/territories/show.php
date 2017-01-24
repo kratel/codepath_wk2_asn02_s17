@@ -30,7 +30,7 @@ $state = db_fetch_assoc($state_result);
     echo "<td>" . h($territory['name']) . "</td>";
     echo "</tr>";
     echo "<tr>";
-    echo "<td>Belongs to State : </td>";
+    echo "<td>In State : </td>";
     echo "<td>" . h($state['name']) . "</td>";
     echo "</tr>";
     echo "<tr>";

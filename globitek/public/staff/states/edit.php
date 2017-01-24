@@ -34,7 +34,7 @@ if(is_post_request()) {
 <?php include(SHARED_PATH . '/header.php'); ?>
 
 <div id="main-content">
-  <a href="index.php">Back to States List</a><br />
+  <a href="show.php?id=<?php echo raw_u($state['id']); ?>">Back to State Details</a><br />
 
   <h1>Edit State: <?php echo h($cur_state['name']); ?></h1>
 
