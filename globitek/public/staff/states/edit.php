@@ -1,7 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
 
-if(!isset($_GET['id'])) {
+if(!isset($_GET['id']) || is_blank($_GET['id'])) {
   redirect_to('index.php');
 }
 $states_result = find_state_by_id($_GET['id']);

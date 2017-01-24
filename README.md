@@ -98,6 +98,8 @@ I had a strange error in the skeleton code provided. There was an extra comma in
 Bugs Found:
 * Edit pages would change the page title and headings to the attempted update strings.
     * **Resolved**: Created a new variable to store the current database values that would be used for the titles and headings.
+* Query strings with empty parameters would not be caught by the !isset check. Would allow a form to be submitted and display that pages details althought the record would not be stored in database due to failing the WHERE conditional statement(no id is blank)
+    * **Resolved**: Added an is_blank to validate the _Get parameters, now blank parameters will also redirect.
 
 ## License
 

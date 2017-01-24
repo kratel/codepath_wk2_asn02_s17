@@ -2,7 +2,7 @@
 require_once('../../../private/initialize.php');
 
 //get country id
-if(!isset($_GET['cid'])) {
+if(!isset($_GET['cid'])|| is_blank($_GET['cid'])) {
   redirect_to('index.php');
 } else {
   $country_id = h($_GET['cid']);  // Very Vulnerable

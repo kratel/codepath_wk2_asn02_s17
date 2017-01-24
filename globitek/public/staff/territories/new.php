@@ -2,7 +2,7 @@
 require_once('../../../private/initialize.php');
 
 //get state id
-if(!isset($_GET['sid'])) {
+if(!isset($_GET['sid']) || is_blank($_GET['sid'])) {
   redirect_to('index.php');
 } else {
 	$state_id = h($_GET['sid']);  // Very Vulnerable

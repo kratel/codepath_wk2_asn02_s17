@@ -1,7 +1,7 @@
 <?php
 require_once('../../../private/initialize.php');
 
-if(!isset($_GET['id'])) {
+if(!isset($_GET['id']) || is_blank($_GET['id'])) {
   redirect_to('index.php');
 }
 $countries_result = find_country_by_id($_GET['id']);
