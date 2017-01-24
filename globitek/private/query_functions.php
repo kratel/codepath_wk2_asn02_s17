@@ -267,8 +267,8 @@
 
     if (is_blank($territory['position'])) {
       $errors[] = "Position cannot be blank.";
-    } /* MY CUSTOM VALIDATION */elseif (!has_length($territory['position'], array('min' => 1, 'max' => 11))) {
-      $errors[] = "Position must be between 1 and 11 digits.";
+    } /* MY CUSTOM VALIDATION */elseif (!has_length($territory['position'], array('min' => 1, 'max' => 10))) {
+      $errors[] = "Position must be between 1 and 10 digits.";
     } /* MY CUSTOM VALIDATION */elseif (!preg_match('/^\A[0-9]+\Z$/',$territory['position'])) {
       $errors[] = "Position may only contain an integer number";
     }
@@ -298,7 +298,7 @@
     $sql .= "VALUES (";
     $sql .= "'" . db_escape($db, $territory['name']) . "',";
     $sql .= "'" . db_escape($db, $territory['state_id']) . "',";
-    $sql .= "'" . db_escape($db, $territory['position']) . "'";
+    $sql .= "'" . (int)db_escape($db, $territory['position']) . "'";
     $sql .= ");";
     // For INSERT statments, $result is just true/false
     $result = db_query($db, $sql);
@@ -326,7 +326,7 @@
     // TODO add SQL
     $sql = "UPDATE territories SET ";
     $sql .= "name='" . db_escape($db, $territory['name']) . "', ";
-    $sql .= "position='" . db_escape($db, $territory['position']) . "' ";
+    $sql .= "position='" . (int)db_escape($db, $territory['position']) . "' ";
     $sql .= "WHERE id='" . db_escape($db, $territory['id']) . "' ";
     $sql .= "LIMIT 1;";
     // For update_territory statments, $result is just true/false
@@ -398,6 +398,8 @@
 
     if (is_blank($salesperson['email'])) {
       $errors[] = "Email cannot be blank.";
+    } elseif (!has_length($salesperson['email'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "Email must be between 2 and 255 characters.";
     } elseif (!has_valid_email_format($salesperson['email'])) {
       $errors[] = "Email must be a valid format.";
     } elseif (!preg_match('/^[a-zA-Z0-9\_\@\.\-]+$/',$salesperson['email'])) {
@@ -550,6 +552,8 @@
 
     if (is_blank($user['email'])) {
       $errors[] = "Email cannot be blank.";
+    } elseif (!has_length($user['email'], array('min' => 2, 'max' => 255))) {
+      $errors[] = "Email must be between 2 and 255 characters.";
     } elseif (!has_valid_email_format($user['email'])) {
       $errors[] = "Email must be a valid format.";
     } elseif (!preg_match('/^[a-zA-Z0-9\_\@\.\-]+$/',$user['email'])) {

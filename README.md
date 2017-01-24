@@ -45,7 +45,7 @@ The following **required** functionality is completed:
           * **Reason**: State Codes follow this format. Prevent unwanted characters.
       * [x] Territory Positions  contain whitelisted characters: Numbers.
           * **Reason**: Database restriction. Prevent unwanted characters.
-      * [x] Territory Positions must be between 1 and 11 digits.
+      * [x] Territory Positions must be between 1 and 10 digits.
           * **Reason**: Database restriction.
       * [x] Territory state_id must exist.
           * **Reason**: state_id can be easily changed through the new.php file. Territory will not be inserted unless the state_id already exists in the current states table.
